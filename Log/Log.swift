@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Log {
+public final class Log {
     public enum Level: Int {
         case Debug = 1
         case Info = 2
@@ -20,8 +20,9 @@ public class Log {
     public static var defaultLogger: Log?
     
     private let dateFormatter: NSDateFormatter
-    private let level: Level
-    private let tag: String?
+    
+    public let level: Level
+    public let tag: String?
     
     private init() {
         fatalError("Private init")
@@ -35,48 +36,53 @@ public class Log {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS"
     }
     
-    public class func d(@autoclosure message: () -> String, function: String = #function) {
-        defaultLogger?.d(message, function: function)
+    public class func d(@autoclosure message: () -> String) {
+        defaultLogger?.d(message)
     }
     
-    public class func i(@autoclosure message: () -> String, function: String = #function) {
-        defaultLogger?.i(message, function: function)
+    public class func i(@autoclosure message: () -> String) {
+        defaultLogger?.i(message)
     }
     
-    public class func w(@autoclosure message: () -> String, function: String = #function) {
-        defaultLogger?.w(message, function: function)
+    public class func w(@autoclosure message: () -> String) {
+        defaultLogger?.w(message)
     }
     
-    public class func e(@autoclosure message: () -> String, function: String = #function) {
-        defaultLogger?.e(message, function: function)
+    public class func e(@autoclosure message: () -> String) {
+        defaultLogger?.e(message)
     }
     
-    public func d(@autoclosure message: () -> String, function: String = #function) {
-        log(level: .Debug, message: message, function: function)
+    public func d(@autoclosure message: () -> String) {
+        log(level: .Debug, message: message)
     }
     
-    public func i(@autoclosure message: () -> String, function: String = #function) {
-        log(level: .Info, message: message, function: function)
+    public func i(@autoclosure message: () -> String) {
+        log(level: .Info, message: message)
     }
     
-    public func w(@autoclosure message: () -> String, function: String = #function) {
-        log(level: .Warning, message: message, function: function)
+    public func w(@autoclosure message: () -> String) {
+        log(level: .Warning, message: message)
     }
     
-    public func e(@autoclosure message: () -> String, function: String = #function) {
-        log(level: .Error, message: message, function: function)
+    public func e(@autoclosure message: () -> String) {
+        log(level: .Error, message: message)
     }
     
-    func log(level level: Level, @autoclosure message: () -> String, function: String = #function) {
+    public func subloggerWithTag(tag: String) -> Log {
+        let tag = (self.tag != nil ? self.tag! + "/" : "") + tag
+        return Log(level: self.level, tag: tag)
+    }
+    
+    func log(level level: Level, @autoclosure message: () -> String) {
         if level.rawValue < self.level.rawValue {
             return
         }
         
         let time = self.dateFormatter.stringFromDate(NSDate())
         if let tag = self.tag {
-            print("\(time) \(tag)[\(function)]: \(message())")
+            print("\(time) \(tag): \(message())")
         } else {
-            print("\(time) \(function): \(message())")
+            print("\(time): \(message())")
         }
     }
 }
