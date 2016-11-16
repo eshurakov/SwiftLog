@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Log {
+public final class Log {
     public enum Level: Int {
         case debug = 1
         case info = 2
@@ -20,8 +20,9 @@ public class Log {
     public static var defaultLogger: Log?
     
     private let dateFormatter: DateFormatter
-    private let level: Level
-    private let tag: String?
+
+    public let level: Level
+    public let tag: String?
     
     private init() {
         fatalError("Private init")
@@ -67,6 +68,11 @@ public class Log {
         log(level: .error, message: message, function: function)
     }
     
+	public func subloggerWithTag(tag: String) -> Log {
+        let tag = (self.tag != nil ? self.tag! + "/" : "") + tag
+        return Log(level: self.level, tag: tag)
+    }
+
     func log(level: Level, message: @autoclosure () -> String, function: String = #function) {
         if level.rawValue < self.level.rawValue {
             return
@@ -74,9 +80,9 @@ public class Log {
         
         let time = self.dateFormatter.string(from: Date())
         if let tag = self.tag {
-            print("\(time) \(tag)[\(function)]: \(message())")
+            print("\(time) \(tag): \(message())")
         } else {
-            print("\(time) \(function): \(message())")
+            print("\(time): \(message())")
         }
     }
 }
