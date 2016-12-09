@@ -33,39 +33,39 @@ public final class Log {
         self.tag = tag
         
         self.dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS"
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyyMMddHHmmssSSS")
     }
     
-    public class func d(_ message: @autoclosure () -> String, function: String = #function) {
-        defaultLogger?.d(message, function: function)
+    public class func d(_ message: @autoclosure () -> String) {
+        defaultLogger?.d(message)
     }
     
-    public class func i(_ message: @autoclosure () -> String, function: String = #function) {
-        defaultLogger?.i(message, function: function)
+    public class func i(_ message: @autoclosure () -> String) {
+        defaultLogger?.i(message)
     }
     
-    public class func w(_ message: @autoclosure () -> String, function: String = #function) {
-        defaultLogger?.w(message, function: function)
+    public class func w(_ message: @autoclosure () -> String) {
+        defaultLogger?.w(message)
     }
     
-    public class func e(_ message: @autoclosure () -> String, function: String = #function) {
-        defaultLogger?.e(message, function: function)
+    public class func e(_ message: @autoclosure () -> String) {
+        defaultLogger?.e(message)
     }
     
-    public func d(_ message: @autoclosure () -> String, function: String = #function) {
-        log(level: .debug, message: message, function: function)
+    public func d(_ message: @autoclosure () -> String) {
+        log(level: .debug, message: message)
     }
     
-    public func i(_ message: @autoclosure () -> String, function: String = #function) {
-        log(level: .info, message: message, function: function)
+    public func i(_ message: @autoclosure () -> String) {
+        log(level: .info, message: message)
     }
     
-    public func w(_ message: @autoclosure () -> String, function: String = #function) {
-        log(level: .warning, message: message, function: function)
+    public func w(_ message: @autoclosure () -> String) {
+        log(level: .warning, message: message)
     }
     
-    public func e(_ message: @autoclosure () -> String, function: String = #function) {
-        log(level: .error, message: message, function: function)
+    public func e(_ message: @autoclosure () -> String) {
+        log(level: .error, message: message)
     }
     
 	public func subloggerWithTag(tag: String) -> Log {
@@ -73,7 +73,7 @@ public final class Log {
         return Log(level: self.level, tag: tag)
     }
 
-    func log(level: Level, message: @autoclosure () -> String, function: String = #function) {
+    func log(level: Level, message: @autoclosure () -> String) {
         if level.rawValue < self.level.rawValue {
             return
         }
