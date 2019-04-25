@@ -37,35 +37,35 @@ public final class Log {
     }
     
     public class func d(_ message: @autoclosure () -> String) {
-        defaultLogger?.d(message)
+        defaultLogger?.d(message())
     }
     
     public class func i(_ message: @autoclosure () -> String) {
-        defaultLogger?.i(message)
+        defaultLogger?.i(message())
     }
     
     public class func w(_ message: @autoclosure () -> String) {
-        defaultLogger?.w(message)
+        defaultLogger?.w(message())
     }
     
     public class func e(_ message: @autoclosure () -> String) {
-        defaultLogger?.e(message)
+        defaultLogger?.e(message())
     }
     
     public func d(_ message: @autoclosure () -> String) {
-        log(level: .debug, message: message)
+        log(level: .debug, message: message())
     }
     
     public func i(_ message: @autoclosure () -> String) {
-        log(level: .info, message: message)
+        log(level: .info, message: message())
     }
     
     public func w(_ message: @autoclosure () -> String) {
-        log(level: .warning, message: message)
+        log(level: .warning, message: message())
     }
     
     public func e(_ message: @autoclosure () -> String) {
-        log(level: .error, message: message)
+        log(level: .error, message: message())
     }
     
 	public func subloggerWithTag(tag: String) -> Log {
